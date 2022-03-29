@@ -1,4 +1,4 @@
-name: Greeting on variable day
+name: Check Envi Variables/Context Variables
 on: workflow_dispatch
 env:
   DAY_OF_WEEK: Monday
@@ -9,7 +9,17 @@ jobs:
       Greeting: Hello
     steps:
       - name: "Say Hello Mona it's Monday"
-        if: ${{ env.DAY_OF_WEEK === 'Monday' }}
+        if: ${{ env.DAY_OF_WEEK == 'Monday' }}
         run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
         env:
           First_Name: Mona
+  if_windows_else:
+    runs-on: macos-latest
+    steps:
+      - name: condition 1
+        if: runner.os == 'Windows'
+        run: echo "The operation system on the runner is $env:RUNNER_OS."
+      - name: condition 2
+        if: runner.os != 'Windows'
+        run: echo "The operating system on the runner is not Windows, it's $RUNNER_OS."
+  
